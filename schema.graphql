@@ -1,0 +1,110 @@
+scalar DateTime
+
+enum Category {
+}
+
+enum PlanType {
+}
+
+enum OfferingType {
+  PRODUCT
+  SERVICE
+}
+
+type User {
+  id: ID!
+  email: String!
+  phone: String!
+  createdAt: DateTime!
+  followedBy: [User!]!
+  follows: [User!]!
+  profilePic: String!
+}
+
+type Customer implements User {
+  firstName: String!
+  lastName: String!
+  fullName: String!
+  reviewsMade: [Review!]!
+}
+
+type Business implements User {
+  name: String!
+  address: String!
+  category: [Category!]!
+  posts: [Post!]!--
+  """
+  I actuallt forgot what this means
+  """
+  status: Status!
+  opens: DateTime!
+  closes: DateTime!
+  products: [Offering!]!
+  stars: Int!
+  tags: [String!]!
+  description: String
+  plan: Plan!
+}
+
+type Plan {
+  name: PlanType!
+  expires: DateTime!
+  dateBought: DateTime!
+  dateActivated: DateTime!
+  """
+  Price or any field holding money does so in kobo
+  """
+  price: Int!
+}
+
+"""
+A type that can be the parent of a comment
+It is either a Review, Post or another Comment
+"""
+union Story = Review!Post!Comment
+
+type Comment {
+  postedBy: User!
+  parent: Story!
+  content: String!
+}
+
+type Review {
+  id: ID!
+  title: String
+  by: Customer!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  content: String!
+  comments: [Comment!]!
+}
+
+type Post {
+  id: ID!
+  title: String!
+  author: User!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  tags: [String!]!
+  content: String!
+  comments: [Comment!]!
+  noOfReads: Int
+  """
+  This is a url for the cover image
+  Should create a scalar type URl
+  """
+  cover: String!
+}
+
+type Offering {
+  type: OfferingType!
+  name: String!
+  cover: String!
+  price: Int!
+  reviews: [Review!]!
+  category: [Category!]!
+  seller: Business!
+  stars: Int!
+  description: String
+  photos: [String!]!
+}
