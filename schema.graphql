@@ -16,8 +16,6 @@ type User {
   email: String!
   phone: String!
   createdAt: DateTime!
-  followedBy: [User!]!
-  follows: [User!]!
   profilePic: String!
 }
 
@@ -26,17 +24,15 @@ type Customer implements User {
   lastName: String!
   fullName: String!
   reviewsMade: [Review!]!
+  follows: [Business!]!
 }
 
 type Business implements User {
   name: String!
   address: String!
   category: [Category!]!
-  posts: [Post!]!--
-  """
-  I actuallt forgot what this means
-  """
-  status: Status!
+  posts: [Post!]!
+  followedBy: [Customer!]!
   opens: DateTime!
   closes: DateTime!
   products: [Offering!]!

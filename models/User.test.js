@@ -5,8 +5,8 @@ const { ObjectId } = mongoose.Types
 
 
 beforeEach((done) => {
-  mongoose.connect('mongodb://192.168.43.165:27017/test', {
-    useUnifiedTopology: false,
+  mongoose.connect('mongodb://192.168.43.108:27017/test', {
+    useUnifiedTopology: true,
     useNewUrlParser: true
   }, err => {
     if (err) throw new Error(err);
@@ -15,8 +15,9 @@ beforeEach((done) => {
   })
 })
 
-afterEach((done) => {
-  mongoose.deleteModel('User');
+afterEach(async (done) => {
+  const delUser = await User.deleteMany({});
+  console.log(delUser);
   mongoose.disconnect(err => {
     if (err) throw new Error(err);
     console.log('Database disconnected...')
