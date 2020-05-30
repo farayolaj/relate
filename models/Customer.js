@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const passportLocalMongoose = require('passport-local-mongoose')
+const passportLocalMongoose = require('passport-local-mongoose');
 
 const Schema = mongoose.Schema;
 const ObjectId = Schema.Types.ObjectId;
@@ -31,18 +31,19 @@ const schema = {
   follows: [{
     type: ObjectId,
     ref: 'Business'
-  }]
+  }],
 };
 
 const customerSchema = new Schema(schema);
-customerSchema.plugin(passportLocalMongoose, {
-  usernameField: 'email'
-});
 
 customerSchema.virtual('fullName').get(function() {
   return this.firstName + ' ' + this.lastName;
 });
 
+customerSchema.plugin(passportLocalMongoose, {
+  usernameField: 'email'
+});
+
 const Customer = mongoose.model('Customer', customerSchema);
 
-module.exports = customerSchema; 
+module.exports = Customer; 

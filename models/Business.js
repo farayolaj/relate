@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const passportLocalMongoose = require('passport-local-mongoose')
+const passportLocalMongoose = require('passport-local-mongoose');
 
 
 const Schema = mongoose.Schema;
@@ -74,8 +74,8 @@ const schema = {
   industries: [{
     type: String,
     enum: ['education', 'fashion & beauty', 'travel', 
-    'electrical & electronic', 'hospitality', 'health', 
-    'finance', 'entertainment', 'food', 'automobile', 'others']
+      'electrical & electronic', 'hospitality', 'health', 
+      'finance', 'entertainment', 'food', 'automobile', 'others']
   }],
   posts: [{
     type: ObjectId,

@@ -6,7 +6,7 @@ const ObjectId = Schema.Types.ObjectId;
 const schema = {
   name: {
     type: String,
-    required: `You don't want to sell nameless products`,
+    required: 'You don\'t want to sell nameless products',
   },
   price: Number,
   reviews: [{

@@ -11,7 +11,7 @@ const schema = {
     content: String,
     datePosted: Date
   }],
-  on: {
+  writtenOn: {
     type: ObjectId,
     refPath: 'recipient'
   },
