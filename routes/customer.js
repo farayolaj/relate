@@ -13,7 +13,7 @@ router.get('/me', (req, res) => {
 });
 router.get('/:name', CustomerController.getbyName);
 router.post('/', CustomerController.createCustomer);
-router.delete('/', CustomerController.removeAll);
+router.delete('/', CustomerController.deleteAccount);
 
 
 module.exports = router;

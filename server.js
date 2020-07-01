@@ -9,10 +9,10 @@ const mongoose = require('mongoose');
 const config = require('./config');
 const { Customer } = require('./models');
 
-const { customerRoutes } = require('./routes');
+const { customerRoutes, authRoutes } = require('./routes');
 
 
-mongoose.connect('mongodb://192.168.43.151:27017/rel', {
+mongoose.connect(config.mongoUrl, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 }, err => {
@@ -28,7 +28,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 // GIVE OPTIONS TO EXPRESS SESSION
 app.use(expressSession({
-  secret: 'I will change the secret later',
+  secret: config.sessionSecret,
   resave: true,
   saveUninitialized: true
 }));
@@ -41,10 +41,7 @@ passport.deserializeUser(Customer.deserializeUser());
 
 app.use(express.static(path.resolve(__dirname, 'public')));
 
-app.post('/customers/login', passport.authenticate('local'), (req, res) => {
-  res.json(req.user);
-});
-
+app.use('/', authRoutes);
 app.use('/customers', customerRoutes);
 
 app.use((err, req, res, next) => {

@@ -1,0 +1,315 @@
+openapi: 3.0.2
+info:
+  description: |
+    This is an API that helps to connect businesses with their customers.
+  title: Relate API
+  version: 1.0.0
+paths:
+  /customers:
+    get:
+      summary: Get all customers
+      parameters:
+        - $ref: '#/components/parameters/PageLimit'
+        - $ref: '#/components/parameters/PageOffset'
+        - $ref: '#/components/parameters/Filter'
+      responses:
+        '200':
+          description: all customers returned
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Customer'
+              examples:
+                Customer List:
+                  description: 'Customer list with return fields id, firstName and lastName'
+                  value:
+                    id: 12099a03
+                    firstName: Joshua
+                    lastName: Fara
+      tags:
+        - Customer
+    post:
+      summary: Create new customer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Customer'
+      responses:
+        200:
+          description: Customer created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+      tags:
+        - Customer
+  /customers/{customerId}:
+    get:
+      summary: Get customer with customerId
+      parameters:
+        - name: customerId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Customer with customerId returned
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+      tags:
+        - Customer
+
+components:
+  schemas:
+    Customer:
+      type: object
+      # required:
+      #   - firstName
+      #   - lastName
+      #   - profilePic
+      properties:
+        id:
+          type: string
+          readOnly: true
+        firstName:
+          type: string
+        lastName:
+          type: string
+        name:
+          type: string
+        email:
+          type: string
+          format: email
+        phone:
+          type: string
+          format: phone
+        joined:
+          type: string
+          format: date-time
+          readOnly: true
+        profilePic:
+          type: string
+          format: uri
+    Business:
+      type: object
+      # required:
+      #   - name
+      #   - email
+      #   - phone
+      #   - opens
+      #   - closes
+      #   - banner
+      properties:
+        id:
+          type: string
+          readOnly: true
+        name:
+          type: string
+        email:
+          type: string
+          format: email
+        phone:
+          type: string
+        joined:
+          type: string
+          format: date-time
+          readOnly: true
+        categories:
+          type: array
+          items:
+            $ref: '#/components/schemas/Category'
+        opens:
+          type: string
+          format: date-time
+        closes:
+          type: string
+          format: date-time
+        stars:
+          type: number
+          readOnly: true
+        tags:
+          type: array
+          items:
+            type: string
+        banner:
+          type: string
+          format: uri
+        about:
+          type: string
+    Category:
+      type: string
+      enum:
+        - Education
+        - Arts and Entertainment
+        - Science and Technology
+        - Beauty and Fashion
+        - Food and Nutrition
+    Post:
+      type: object
+      properties:
+        id:
+          type: string
+          readOnly: true
+        author:
+          anyOf:
+            - $ref: '#/components/schemas/Customer'
+            - $ref: '#/components/schemas/Business'
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        tags:
+          type: array
+          items:
+            type: string
+        title:
+          type: string
+        content:
+          type: string
+        comments:
+          type: array
+          items:
+            $ref: '#/components/schemas/Comment'
+        noOfReads:
+          type: integer
+        cover:
+          type: string
+          format: uri
+    Review:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        reviewer:
+          anyOf:
+            - $ref: '#/components/schemas/Customer'
+            - $ref: '#/components/schemas/Business'
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        comments:
+          type: array
+          items:
+            $ref: '#/components/schemas/Comment'
+    Comment:
+      type: object
+      properties:
+        id:
+          type: string
+        postedBy:
+          anyOf:
+            - $ref: '#/components/schemas/Customer'
+            - $ref: '#/components/schemas/Business'
+        content:
+          type: string
+    Product:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        price:
+          type: number
+        reviews:
+          type: array
+          items:
+            $ref: '#/components/schemas/Review'
+        categories:
+          type: array
+          items:
+            $ref: '#/components/schemas/Category'
+        inventory:
+          type: integer
+        seller:
+          $ref: '#/components/schemas/Business'
+        stars:
+          type: integer
+          format: int32
+        description:
+          type: string
+        photos:
+          type: array
+          items:
+            type: string
+            format: uri
+        cover:
+          type: string
+          format: uri
+    Booking:
+      type: object
+      properties:
+        id:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        timeBooked:
+          type: string
+          format: date-time
+        by:
+          $ref: '#/components/schemas/Customer'
+        with:
+          $ref: '#/components/schemas/Business'
+        address:
+          type: string
+        status:
+          type: string
+          enum:
+            - CANCELLED
+            - BOOKED
+            - AWAITING
+            - FULFILLED
+            - REJECTED
+  parameters:
+    PageLimit:
+      name: limit
+      description: Number of items to get
+      in: query
+      schema:
+        type: integer
+    PageOffset:
+      name: offset
+      description: Start a page there
+      in: query
+      schema:
+        type: integer
+    Filter:
+      name: filter
+      description: Return items that pass the filter
+      in: query
+      schema:
+        type: object
+        description: Any property
+        additionalProperties:
+          type: string
+  responses:
+    403Forbidden:
+      description: Access not granted to the resource
+      content:
+        application/json:
+          schema:
+            type: object
+            # properties://////////////////////////// continue here
+servers:
+  - url: 'https://api.relate.com/v1'
+tags:
+  - name: Customers
+    description: Operations that can be performed on customers
+externalDocs:
+  url: 'https://relate.com/about'
+  description: Find out more about what we do
