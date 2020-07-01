@@ -1,15 +1,21 @@
-const Booking = require('./Booking');
-const Business = require('./Business');
-const Customer = require('./Customer');
-const Post = require('./Post');
-const Product = require('./Product');
-const Review = require('./Review');
+import Booking from './Booking';
+import Business from './Business';
+import Customer from './Customer';
+import Post from './Post';
+import Product from './Product';
+import Review from './Review';
+import Token from './Token';
+import AuthorizationCode from './AuthorizationCode';
+import Client from './Client';
 
-module.exports = {
+export {
   Booking,
   Business,
   Customer,
   Post,
   Product,
-  Review
+  Review,
+  Token,
+  AuthorizationCode,
+  Client
 };

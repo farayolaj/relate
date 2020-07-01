@@ -36,5 +36,11 @@
     "faker": "^4.1.0",
     "jest": "^26.0.1",
     "nodemon": "^2.0.4"
+  },
+  "babel": {
+    "presets": [
+      "@babel/preset-env",
+      "@babel/preset-typescript"
+    ]
   }
 }

@@ -11,42 +11,40 @@ const model = {
   revokeToken
 }
 
-function getAccessToken(accessToken) {
-  token = await Token.find({accessToken});
+async function getAccessToken(accessToken) {
+  token = await Token.getAccessToken(accessToken);
+  return token;
 }
 
-function getRefreshToken(refreshToken) {
-
+async function getRefreshToken(refreshToken) {
+  token = await Token.getRefreshToken(refreshToken);
+  return token;
 }
 
-function getAuthorizationCode(authorizationCode) {
+async function getAuthorizationCode(authorizationCode) {
   
 }
 
-function getClient(clientId, clientSecret) {
+async function getClient(clientId, clientSecret) {
   
 }
 
-function saveToken(token, client, user) {
+async function saveToken(token, client, user) {
   
 }
 
-function saveAuthorizationCode() {
+async function saveAuthorizationCode(code, client, user) {
   
 }
 
-function revokeToken() {
+async function revokeAccessToken(token) {
   
 }
 
-function revokeAuthorizationCode() {
+async function revokeRefreshToken(token) {
   
 }
 
-/*interface Token {
-  accessToken: string;
-  accessTokenExpiresAt: Date;
-  refreshToken?: string;
-  refreshTokenExpiresAt?: Date;
-  scope?: string;
-}*/
+async function revokeAuthorizationCode() {
+  
+}

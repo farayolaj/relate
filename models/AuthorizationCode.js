@@ -19,16 +19,56 @@ const code = {
   scope: {
     type: String,
   },
-  clientId: {
-    type: String,
-    required: true
+  client: {
+    type: ObjectId,
+    required: true,
+    ref: 'Client'
   },
-  userId: {
+  user: {
+    type: ObjectId,
+    required: true,
+    refPath: 'userType'
+  },
+  userType: {
     type: String,
-    required: true
+    enum: ['Customer', 'Business'],
+    default: 'Customer'
   }
 };
 
 const codeSchema = new Schema(code);
+
+codeSchema.statics.getCode = async function(authorizationCode) {
+  const code = await this.findOne({ authorizationCode })
+    .populate('client')
+    .populate('user').exec();
+
+  return code;
+}
+
+codeSchema.statics.saveCode = async function(code, client, user) {
+  const {
+    authorizationCode,
+    expiresAt,
+    redirectUri,
+    scope
+  } = code;
+  const newCode = new this({
+    authorizationCode,
+    expiresAt,
+    redirectUri,
+    scope,
+    client: client._id,
+    user: user._id,
+    userType: user.constructor.modelName
+  });
+
+  await newCode.save();
+  return newCode;
+}
+
+codeSchema.statics.deleteCode = async function(authorizationCode) {
+  return await this.deleteOne({ authorizationCode });
+}
 
 export default mongoose.model('AuthorizationCode', codeSchema);

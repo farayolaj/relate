@@ -1,7 +1,6 @@
-const mongoose = require('mongoose');
-const passportLocalMongoose = require('passport-local-mongoose');
+import { Schema, model } from 'mongoose';
+import passportLocalMongoose from 'passport-local-mongoose';
 
-const Schema = mongoose.Schema;
 const ObjectId = Schema.Types.ObjectId;
 
 const schema = {
@@ -44,6 +43,6 @@ customerSchema.plugin(passportLocalMongoose, {
   usernameField: 'email'
 });
 
-const Customer = mongoose.model('Customer', customerSchema);
+const Customer = model('Customer', customerSchema);
 
-module.exports = Customer; 
+export default Customer; 
