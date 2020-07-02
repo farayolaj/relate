@@ -1,29 +1,17 @@
-const User = require('./User');
-const mongoose = require('mongoose');
-const config = require('../config');
+import User from './User';
+import db from '../db';
+import { Types } from 'mongoose';
 
-const { ObjectId } = mongoose.Types;
-
+const { ObjectId } = Types;
 
 beforeEach((done) => {
-  mongoose.connect(config.mongoTestUrl, {
-    useUnifiedTopology: true,
-    useNewUrlParser: true
-  }, err => {
-    if (err) throw new Error(err);
-    console.log('Connected to database....');
-    done();
-  })
+  db.connect(done);
 })
 
 afterEach(async (done) => {
   const delUser = await User.deleteMany({});
   console.log(delUser);
-  mongoose.disconnect(err => {
-    if (err) throw new Error(err);
-    console.log('Database disconnected...')
-    done();
-  })
+  db.disconnect(done);
 })
 
 test('create new user', async () => {

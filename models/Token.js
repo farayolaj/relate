@@ -90,11 +90,11 @@ tokenSchema.statics.saveToken = async function(token, client, user) {
 }
 
 tokenSchema.statics.deleteAccessToken = async function(accessToken) {
-  return await this.where({ accessToken }).update({ accessToken: '' }).exec();
+  return await this.deleteOne({ accessToken });
 }
 
 tokenSchema.statics.deleteRefreshToken = async function(refreshToken) {
-  return await this.where({ refreshToken }).update({ refreshToken: '' }).exec();
+  return await this.deleteOne({ refreshToken });
 }
 
 export default mongoose.model('Token', tokenSchema);
