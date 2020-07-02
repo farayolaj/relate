@@ -20,7 +20,7 @@ clientSchema.statics.deleteClient = async function(clientId) {
   return await this.deleteOne({ _id: clientId });
 }
 
-clientSchema.static.getClient = async function(clientId) {
+clientSchema.statics.getClient = async function(clientId) {
   return await this.findById(clientId);
 }
 

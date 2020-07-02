@@ -4,14 +4,13 @@ import { Types } from 'mongoose';
 
 const { ObjectId } = Types;
 
-beforeEach((done) => {
-  db.connect(done);
+beforeEach(async () => {
+  await db.connect();
 })
 
-afterEach(async (done) => {
-  const delUser = await User.deleteMany({});
-  console.log(delUser);
-  db.disconnect(done);
+afterEach(async () => {
+  await User.deleteMany({});
+  await db.disconnect();
 })
 
 test('create new user', async () => {

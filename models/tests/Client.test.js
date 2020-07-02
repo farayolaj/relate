@@ -3,41 +3,56 @@
 
 import Client from '../Client.js';
 import { Types } from 'mongoose';
+import faker from 'faker';
 import db from '../../db';
 
 const { ObjectId } = Types;
 
-beforeEach((done) => {
-  db.connect(done);
+beforeEach(async () => {
+  await db.connect();
 })
 
-afterEach(async (done) => {
-  const delUser = await Client.deleteMany({});
-  console.log(delUser);
-  db.disconnect(done);
+afterEach(async () => {
+  await db.disconnect();
 })
 
-describe('Test Client model', function() {
-  test('register new client', async function() {
-    const client = new Client({
-      grants: [
-        'authorization_code',
-        'password'
-      ],
-      redirectUris: [
-        'allo.client.com',
-        'world.client.com'
-      ],
-      accessTokenLifetime: 3600,
-      refreshTokenLifetime: 42300
-    });
+describe('Test Client model', () => {
 
-    await Client.register(client, 'password');
+  const completeClient = {
+    grants: [
+      faker.lorem.word(),
+      faker.lorem.word()
+    ],
+    redirectUris: [
+      faker.internet.email(),
+      faker.internet.email()
+    ],
+    accessTokenLifetime: faker.random.number(),
+    refreshTokenLifetime: faker.random.number(),
+    password: faker.internet.password()
+  }
 
-    expect(client).toHaveProperty('_id', expect.any(ObjectId));
+  beforeEach(async () => {
+    const client = new Client(completeClient);
+    await client.setPassword(completeClient.password);
+    completeClient.ID = client._id;
+    await client.save();
+  })
+  
+  afterEach(async () => {
+    await Client.deleteMany({});
   })
 
-  test.todo('get registered client')
+  test('get registered client', async () => {
+    const client = await Client.getClient(completeClient.ID);
 
-  test.todo('delete registered client')
+    expect(client).toHaveProperty('_id', completeClient.ID);
+  })
+
+  test('delete registered client', async () => {
+    const res = await Client.deleteClient(completeClient.ID);
+
+    expect(res).toHaveProperty('deletedCount', 1);
+  })
+
 })
