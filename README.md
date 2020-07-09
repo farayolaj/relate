@@ -7,6 +7,5 @@ for self-evaluation. It may become a thing later... Who knows what can happen...
 The short version did my work :)
 
 ### To-do
-- install @types/mongoose
 - type the data models
 - create .env.sample file
