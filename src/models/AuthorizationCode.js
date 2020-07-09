@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 
 const Schema = mongoose.Schema;
+const ObjectId = mongoose.Types.ObjectId;
 
 const code = {
   authorizationCode: {
@@ -41,7 +42,7 @@ const codeSchema = new Schema(code);
 codeSchema.statics.getCode = async function(authorizationCode) {
   const code = await this.findOne({ authorizationCode })
     .populate('client')
-    .populate('user').exec();
+    .populate('user').lean().exec();
 
   return code;
 }

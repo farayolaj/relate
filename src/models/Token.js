@@ -50,7 +50,7 @@ tokenSchema.statics.getAccessToken = async function(accessToken) {
     .select('accessToken accessTokenExpiresAt scope client user')
     .populate('client')
     .populate('user')
-    .exec();
+    .lean();
   return token;
 }
 
@@ -60,7 +60,7 @@ tokenSchema.statics.getRefreshToken = async function(refreshToken) {
     .select('refreshToken refreshTokenExpiresAt scope client user')
     .populate('client')
     .populate('user')
-    .exec();
+    .lean().exec();
   
   return token;
 }

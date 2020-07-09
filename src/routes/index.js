@@ -1,5 +1,5 @@
 const customerRoutes = require('./customer');
-const authRoutes = require('./auth');
+const authRoutes = require('./auth').default;
 
 module.exports = {
   customerRoutes,

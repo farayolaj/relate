@@ -1,8 +1,8 @@
-const Token = require('../Token');
-const Client = require('../Client');
-const Customer = require('../Customer');
-const Business = require('../Business');
-const faker = require('faker');
+import Token from '../Token';
+import Client from '../Client';
+import Customer from '../Customer';
+import Business from '../Business';
+import faker from 'faker';
 // import { Types } from 'mongoose';
 
 // const ObjectId = Types.ObjectId;

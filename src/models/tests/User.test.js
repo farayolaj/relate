@@ -1,5 +1,5 @@
-import User from './User';
-import db from '../db';
+import User from '../User';
+import db from '../../db';
 import { Types } from 'mongoose';
 
 const { ObjectId } = Types;

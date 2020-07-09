@@ -1,10 +1,12 @@
+const config = require('./src/config');
+
 module.exports = {
   mongodbMemoryServerOptions: {
     instance: {
       dbName: 'jest'
     },
     binary: {
-      version: '4.2.8',
+      systemBinary: config.mongoMsSystemBinary,
       skipMD5: true
     },
     autoStart: false

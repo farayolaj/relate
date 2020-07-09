@@ -1,6 +1,3 @@
-// const Client = require('../Client.js');
-// const { Types } = require('mongoose');
-
 import Client from '../Client.js';
 import { Types } from 'mongoose';
 import faker from 'faker';
@@ -44,7 +41,7 @@ describe('Test Client model', () => {
   })
 
   test('get registered client', async () => {
-    const client = await Client.getClient(completeClient.ID);
+    const client = await Client.getClient(completeClient.ID, completeClient.password);
 
     expect(client).toHaveProperty('_id', completeClient.ID);
   })

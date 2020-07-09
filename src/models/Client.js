@@ -20,8 +20,9 @@ clientSchema.statics.deleteClient = async function(clientId) {
   return await this.deleteOne({ _id: clientId });
 }
 
-clientSchema.statics.getClient = async function(clientId) {
-  return await this.findById(clientId);
+clientSchema.statics.getClient = async function(clientId, clientSecret) {
+  const client = await this.findById(clientId).exec();
+  if (client.authenticate(clientSecret)) return client;
 }
 
 clientSchema.plugin(passportLocalMongoose, {
