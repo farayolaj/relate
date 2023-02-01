@@ -23,7 +23,7 @@
     "graphql": "^15.0.0",
     "graphql-playground-middleware-express": "^1.7.14",
     "http-errors": "^1.7.3",
-    "mongoose": "^5.9.15",
+    "mongoose": "^5.13.15",
     "morgan": "^1.10.0",
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
